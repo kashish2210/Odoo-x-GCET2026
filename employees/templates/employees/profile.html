@@ -1,0 +1,222 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="{% static 'employees/profile.css' %}">
+</head>
+<body>
+
+<div class="profile-page">
+
+    <!-- Header -->
+    <header class="profile-header">
+        <h1>My Profile</h1>
+    </header>
+
+    <!-- Top Section -->
+    <section class="profile-summary">
+        <div class="profile-avatar">
+            <div class="avatar-circle">
+                <button type="button">Edit</button>
+            </div>
+        </div>
+
+        <div class="profile-basic-info">
+            <h2>My Name</h2>
+
+            <div class="info-grid">
+                <div>
+                    <label>Job Position</label>
+                    <p>—</p>
+                </div>
+
+                <div>
+                    <label>Company</label>
+                    <p>—</p>
+                </div>
+
+                <div>
+                    <label>Email</label>
+                    <p>—</p>
+                </div>
+
+                <div>
+                    <label>Department</label>
+                    <p>—</p>
+                </div>
+
+                <div>
+                    <label>Mobile</label>
+                    <p>—</p>
+                </div>
+
+                <div>
+                    <label>Manager</label>
+                    <p>—</p>
+                </div>
+
+                <div>
+                    <label>Location</label>
+                    <p>—</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabs -->
+    <nav class="profile-tabs">
+        <button class="tab active" data-tab="resume">Resume</button>
+        <button class="tab" data-tab="private">Private Info</button>
+        <button class="tab" data-tab="salary">Salary Info</button>
+        <button class="tab" data-tab="security">Security</button>
+    </nav>
+
+    <!-- Tab Content -->
+    <section class="tab-content">
+
+        <!-- Resume -->
+        <div class="tab-panel active" id="resume">
+            <p>Resume content goes here.</p>
+        </div>
+
+        <!-- Private Info -->
+        <div class="tab-panel" id="private">
+
+            <div class="private-info-grid">
+
+                <div class="private-column">
+                    <h3>Personal Details</h3>
+
+                    <div class="field">
+                        <label>Date of Birth</label>
+                        <p>—</p>
+                    </div>
+
+                    <div class="field">
+                        <label>Residing Address</label>
+                        <p>—</p>
+                    </div>
+
+                    <div class="field">
+                        <label>Nationality</label>
+                        <p>—</p>
+                    </div>
+
+                    <div class="field">
+                        <label>Personal Email</label>
+                        <p>—</p>
+                    </div>
+
+                    <div class="field">
+                        <label>Gender</label>
+                        <p>—</p>
+                    </div>
+
+                    <div class="field">
+                        <label>Marital Status</label>
+                        <p>—</p>
+                    </div>
+
+                    <div class="field">
+                        <label>Date of Joining</label>
+                        <p>—</p>
+                    </div>
+                </div>
+
+                <div class="private-column">
+                    <h3>Bank Details</h3>
+
+                    <div class="field">
+                        <label>Account Number</label>
+                        <p>—</p>
+                    </div>
+
+                    <div class="field">
+                        <label>Bank Name</label>
+                        <p>—</p>
+                    </div>
+
+                    <div class="field">
+                        <label>IFSC Code</label>
+                        <p>—</p>
+                    </div>
+
+                    <div class="field">
+                        <label>PAN No</label>
+                        <p>—</p>
+                    </div>
+
+                    <div class="field">
+                        <label>UAN No</label>
+                        <p>—</p>
+                    </div>
+
+                    <div class="field">
+                        <label>Emp Code</label>
+                        <p>—</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Salary Info -->
+        <div class="tab-panel" id="salary">
+            {% if salary_info %}
+                <h3>Salary Info</h3>
+                <p>Monthly Wage: ₹{{ salary_info.monthly_wage }}</p>
+                <p>Yearly Wage: ₹{{ salary_info.yearly_wage }}</p>
+                <p>Working Days/Week: {{ salary_info.working_days_per_week }}</p>
+                {% if salary_info.break_time_hours %}
+                    <p>Break Time: {{ salary_info.break_time_hours }} hrs</p>
+                {% endif %}
+
+                {% if components %}
+                    <h4>Salary Components</h4>
+                    <ul>
+                        {% for comp in components %}
+                            <li>
+                                {{ comp.component_type }}: ₹{{ comp.monthly_amount }}
+                                {% if comp.percentage_of_basic %}
+                                    ({{ comp.percentage_of_basic }}%)
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if pf %}
+                    <h4>Provident Fund (PF) Contribution</h4>
+                    <p>Employee: ₹{{ pf.employee_contribution }} ({{ pf.employee_percentage }}%)</p>
+                    <p>Employer: ₹{{ pf.employer_contribution }} ({{ pf.employer_percentage }}%)</p>
+                {% endif %}
+
+                {% if tax_deductions %}
+                    <h4>Tax Deductions</h4>
+                    <ul>
+                        {% for tax in tax_deductions %}
+                            <li>{{ tax.deduction_type }}: ₹{{ tax.monthly_amount }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% else %}
+                <p>Salary information not available.</p>
+            {% endif %}
+        </div>
+
+
+        <!-- Security -->
+        <div class="tab-panel" id="security">
+            <p>Security settings go here.</p>
+        </div>
+
+    </section>
+
+</div>
+
+<script src="{% static 'employees/profile.js' %}"></script>
+</body>
+</html>

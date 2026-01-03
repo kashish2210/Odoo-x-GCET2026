@@ -87,3 +87,119 @@ class PrivateInfo(models.Model):
 
     def __str__(self):
         return f"Private Info - {self.profile.user}"
+    
+class SalaryInfo(models.Model):
+    profile = models.OneToOneField(
+        EmployeeProfile,
+        on_delete=models.CASCADE,
+        related_name="salary_info"
+    )
+
+    monthly_wage = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    yearly_wage = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    working_days_per_week = models.PositiveSmallIntegerField(default=5)
+
+    break_time_hours = models.DecimalField(
+        max_digits=4,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+class ProvidentFund(models.Model):
+    salary_info = models.OneToOneField(
+        SalaryInfo,
+        on_delete=models.CASCADE,
+        related_name="pf"
+    )
+
+    employee_contribution = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    employee_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=12.00
+    )
+
+    employer_contribution = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    employer_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=12.00
+    )
+
+    calculated_on_basic = models.BooleanField(default=True)
+
+class TaxDeduction(models.Model):
+    salary_info = models.ForeignKey(
+        SalaryInfo,
+        on_delete=models.CASCADE,
+        related_name="tax_deductions"
+    )
+
+    deduction_type = models.CharField(max_length=50)
+    monthly_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+class TaxDeduction(models.Model):
+    salary_info = models.ForeignKey(
+        SalaryInfo,
+        on_delete=models.CASCADE,
+        related_name="tax_deductions"
+    )
+
+    deduction_type = models.CharField(max_length=50)
+    monthly_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+class SalaryComponent(models.Model):
+    salary_info = models.ForeignKey(
+        SalaryInfo,
+        on_delete=models.CASCADE,
+        related_name="components"
+    )
+
+    component_type = models.CharField(max_length=20)
+    monthly_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    percentage_of_basic = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
