@@ -7,6 +7,12 @@
                 <span class="logo-text">Your Company</span>
             </div>
             
+            <nav class="dashboard-nav">
+                <a href="{% url 'dashboard' %}" class="nav-item">Employees</a>
+                <a href="#" class="nav-item">Attendance</a>
+                <a href="#" class="nav-item">Time Off</a>
+            </nav>
+
             <nav class="nav">
                 {% if user.is_authenticated %}
                     <span class="user-welcome">Welcome, {{ user.login_id }}</span>
