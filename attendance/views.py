@@ -4,7 +4,6 @@ from django.utils import timezone
 from .models import Attendance
 
 
-# Create your views here.
 def attendance(request):
     return redirect('attendance:list')
 
@@ -34,18 +33,15 @@ def check_in_out_view(request):
             user.done_for_day = True
             user.save()
 
+    # FIXED: Changed 'attendace_list_view' to 'list'
+    return redirect('attendance:list')
 
-    return redirect('attendance:attendace_list_view')
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from .models import Attendance
 
 @login_required
 def attendance_list_view(request):
     user = request.user
     
-    # 1. Filter by role
+    # Filter by role
     if user.role == 'ADMIN' or user.role == 'HR':
         queryset = Attendance.objects.all()
     else:
@@ -56,6 +52,7 @@ def attendance_list_view(request):
     context = {
         'records': records,
     }
+    
     if user.role == 'ADMIN' or user.role == 'HR':
         return render(request, 'attendance/list_admin.html', context)
     else:

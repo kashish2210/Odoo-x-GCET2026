@@ -16,6 +16,10 @@ urlpatterns = [
     # Current user's profile
     path('profile/', views.profile, name='profile'),
     
-    # Update avatar
+    # Update endpoints
     path('profile/update-avatar/', views.update_profile_avatar, name='update_profile_avatar'),
+    path('profile/update-employee-profile/', views.update_employee_profile, name='update_employee_profile'),
+    path('profile/update-private-info/', views.update_private_info, name='update_private_info'),
+    path('profile/update-salary-info/', views.update_salary_info, name='update_salary_info'),
+    path('profile/upload-resume/', views.upload_resume, name='upload_resume'),
 ]
