@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
                 
                 try {
-                    const response = await fetch('{% url "update_profile_avatar" %}', {
+                    const response = await fetch('{% url "employee:update_profile_avatar" %}', {
                         method: 'POST',
                         body: formData
                     });
