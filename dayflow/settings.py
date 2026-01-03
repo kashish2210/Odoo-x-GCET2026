@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     "accounts",
     "employees.apps.EmployeesConfig",
+    'attendance',
 
     'allauth',
     'allauth.account'
