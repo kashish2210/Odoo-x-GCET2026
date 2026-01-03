@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card signup-card">
+        <div class="auth-header">
+            <div class="app-logo-section">
+                <img src="{% static 'images/app-logo.png' %}" alt="App Logo" class="app-logo">
+                <span class="app-name">App/Web Logo</span>
+            </div>
+        </div>
+
+        <h2 class="auth-title">Sign Up Page</h2>
+
+        {% if form.non_field_errors %}
+            <div class="error-message">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" class="auth-form">
+            {% csrf_token %}
+            
+            <div class="form-group logo-upload-group">
+                <label class="form-label">Company Name :-</label>
+                <div class="logo-upload-wrapper">
+                    <input type="text" name="company_name" placeholder="Company Name" class="form-control">
+                    <div class="upload-section">
+                        <label for="logo-upload" class="upload-label">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                        </label>
+                        <input type="file" id="logo-upload" name="logo" accept="image/*" class="file-input">
+                        <span class="upload-text">Upload Logo</span>
+                        <img id="logo-preview" class="logo-preview" style="display:none;" alt="Logo Preview">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.login_id.id_for_label }}" class="form-label">
+                    Name :-
+                </label>
+                {{ form.login_id }}
+                {% if form.login_id.errors %}
+                    <span class="field-error">{{ form.login_id.errors.0 }}</span>
+                {% endif %}
+                <small class="form-hint">Example: Yashvi Sandeepkumar Gor</small>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}" class="form-label">
+                    Email :-
+                </label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <span class="field-error">{{ form.email.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Phone :-</label>
+                <input type="tel" name="phone" placeholder="Phone Number" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}" class="form-label">
+                    Password :-
+                </label>
+                <div class="password-wrapper">
+                    {{ form.password1 }}
+                    <button type="button" class="password-toggle" data-target="{{ form.password1.id_for_label }}">
+                        <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                {% if form.password1.errors %}
+                    <span class="field-error">{{ form.password1.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}" class="form-label">
+                    Confirm Password :-
+                </label>
+                <div class="password-wrapper">
+                    {{ form.password2 }}
+                    <button type="button" class="password-toggle" data-target="{{ form.password2.id_for_label }}">
+                        <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                {% if form.password2.errors %}
+                    <span class="field-error">{{ form.password2.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn-submit">Sign Up</button>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="{% url 'account_login' %}" class="auth-link">Sign In</a></p>
+            </div>
+        </form>
+
+        <div class="info-note">
+            <h4>Note</h4>
+            <p>- Normal user cannot register, so when the HR officer or Admin creates a new user/employee, there ID would also be created with this method.</p>
+            <p>- There password should be auto generated for the first time by the system.</p>
+            <p>- They can login and change the system generated password.</p>
+        </div>
+    </div>
+
+    <div class="gleaming-ape-info">
+        <div class="example-box">
+            <h3>Gleaming Ape</h3>
+            <p class="example-text">Example: OITOD20220001</p>
+            <div class="explanation">
+                <p><strong>Explanation:</strong></p>
+                <p>OI = Odoo India (Company Name)</p>
+                <p>JODO = First two letters of the employee's first name and last name</p>
+                <p>2022 = Year of Joining</p>
+                <p>0001 = Serial Number of Joining For that Year</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/auth.js' %}"></script>
+<script src="{% static 'js/signup.js' %}"></script>
+{% endblock %}
