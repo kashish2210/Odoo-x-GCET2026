@@ -1,5 +1,6 @@
 from allauth.account.forms import SignupForm
 from django import forms
+from .models import User
 
 
 class CustomSignupForm(SignupForm):
@@ -37,6 +38,12 @@ class CustomSignupForm(SignupForm):
             'placeholder': 'Confirm Password',
             'class': 'form-control'
         })
+
+    def clean_login_id(self):
+        login_id = self.cleaned_data.get('login_id')
+        if User.objects.filter(login_id=login_id).exists():
+            raise forms.ValidationError('This Employee ID is already taken. Please use a different one.')
+        return login_id
 
     def save(self, request):
         user = super().save(request)

@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Employees{% endblock %}
+
+{% block extra_css %}
+<style>
+    .employees-page {
+        padding: 24px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .employees-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+    
+    .employees-header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+    
+    .btn-primary {
+        background: var(--primary-color);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+    
+    .employees-table-container {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+    }
+    
+    .employees-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .employees-table thead {
+        border-bottom: 2px solid var(--border-color);
+    }
+    
+    .employees-table th {
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .employees-table td {
+        padding: 16px 12px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .employees-table tbody tr {
+        transition: background 0.2s ease;
+    }
+    
+    .employees-table tbody tr:hover {
+        background: var(--hover-bg);
+    }
+    
+    .employee-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .employee-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
+    .employee-avatar-placeholder {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+    }
+    
+    .employee-details {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .employee-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 2px;
+    }
+    
+    .employee-id {
+        font-size: 13px;
+        color: var(--text-secondary);
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .status-active {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status-inactive {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .btn-sm {
+        padding: 6px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-sm:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-secondary);
+    }
+    
+    .empty-state svg {
+        margin-bottom: 16px;
+        opacity: 0.5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="employees-page">
+    <div class="employees-header">
+        <h1>Employees</h1>
+        <button class="btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px;">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Add Employee
+        </button>
+    </div>
+    
+    <div class="employees-table-container">
+        <table class="employees-table">
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Joined Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td>
+                        <div class="employee-info">
+                            {% if employee.profile_avatar %}
+                                <img src="{{ employee.profile_avatar.url }}" alt="{{ employee.login_id }}" class="employee-avatar">
+                            {% else %}
+                                <div class="employee-avatar-placeholder">
+                                    {{ employee.login_id|slice:":2"|upper }}
+                                </div>
+                            {% endif %}
+                            <div class="employee-details">
+                                <span class="employee-name">{{ employee.login_id }}</span>
+                                <span class="employee-id">{{ employee.login_id }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.get_role_display }}</td>
+                    <td>
+                        <span class="status-badge {% if employee.is_active %}status-active{% else %}status-inactive{% endif %}">
+                            {% if employee.is_active %}Active{% else %}Inactive{% endif %}
+                        </span>
+                    </td>
+                    <td>{{ employee.date_joined|date:"M d, Y" }}</td>
+                    <td>
+                        <a href="{% url 'employee:profile' %}" class="btn-sm">View</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <p>No employees found</p>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Add active state to navigation
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPath = window.location.pathname;
+    const navItems = document.querySelectorAll('.dashboard-nav .nav-item');
+    
+    navItems.forEach(item => {
+        item.classList.remove('active');
+        const href = item.getAttribute('href');
+        if (currentPath.startsWith(href) && href !== '#') {
+            item.classList.add('active');
+        }
+    });
+});
+</script>
+{% endblock %}

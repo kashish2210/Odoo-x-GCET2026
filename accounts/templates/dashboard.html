@@ -7,6 +7,7 @@
     <title>{% block title %}Dashboard{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
     <!-- Include Header -->
@@ -16,7 +17,7 @@
     <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="dashboard-sidebar">
-            <a href="{% url 'profile' %}" class="sidebar-item {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+            <a href="{% url 'employee:profile' %}" class="sidebar-item {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
@@ -33,7 +34,7 @@
                 <span>Dashboard</span>
             </a>
             
-            <a href="#" class="sidebar-item">
+            <a href="{% url 'employee:employees' %}" class="sidebar-item {% if request.resolver_match.url_name == 'employees' %}active{% endif %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                     <circle cx="9" cy="7" r="4"></circle>

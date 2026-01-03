@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from .models import EmployeeProfile
+from accounts.models import User
 
 
 @login_required
@@ -12,14 +13,12 @@ def profile(request):
     
     # Get salary info if exists
     salary_info = getattr(profile, 'salary_info', None)
-
     context = {
         "salary_info": salary_info,
         "components": salary_info.components.all() if salary_info else [],
         "pf": getattr(salary_info, 'pf', None),
         "tax_deductions": salary_info.tax_deductions.all() if salary_info else []
     }
-
     return render(request, 'employees/profile.html', context=context)
 
 
@@ -39,3 +38,15 @@ def update_profile_avatar(request):
             return JsonResponse({'success': False, 'error': str(e)})
     
     return JsonResponse({'success': False, 'error': 'No file uploaded'})
+
+
+@login_required
+def employees(request):
+    # Get all users (employees)
+    all_employees = User.objects.all().order_by('-date_joined')
+    
+    context = {
+        'employees': all_employees
+    }
+    
+    return render(request, 'employees/employees.html', context)

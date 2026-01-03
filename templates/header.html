@@ -6,13 +6,26 @@
             {% if user.company_logo %}
                 <img src="{{ user.company_logo.url }}" alt="Company Logo" class="logo-img">
             {% else %}
-                <span class="logo-text">Company Logo</span>
+                <!-- Default Company Building SVG -->
+                <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                    <path d="M9 22v-4h6v4"></path>
+                    <path d="M8 6h.01"></path>
+                    <path d="M16 6h.01"></path>
+                    <path d="M12 6h.01"></path>
+                    <path d="M12 10h.01"></path>
+                    <path d="M12 14h.01"></path>
+                    <path d="M16 10h.01"></path>
+                    <path d="M16 14h.01"></path>
+                    <path d="M8 10h.01"></path>
+                    <path d="M8 14h.01"></path>
+                </svg>
             {% endif %}
         </div>
         
         <!-- Navigation -->
         <nav class="dashboard-nav">
-            <a href="{% url 'dashboard' %}" class="nav-item employees">Employees</a>
+            <a href="{% url 'employee:employees' %}" class="nav-item employees">Employees</a>
             <a href="{% url 'attendance:attendance' %}" class="nav-item attendance">Attendance</a>
             <a href="#" class="nav-item time_off">Time Off</a>
         </nav>
@@ -48,7 +61,7 @@
                     </button>
                     
                     <div class="dropdown-menu" id="dropdownMenu">
-                        <a href="{% url 'profile' %}" class="dropdown-item">
+                        <a href="{% url 'employee:profile' %}" class="dropdown-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
