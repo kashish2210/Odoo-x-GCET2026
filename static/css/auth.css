@@ -1,0 +1,96 @@
+/* Auth Page Specific Styles */
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.auth-card {
+    background-color: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 0;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: var(--shadow);
+}
+
+.auth-card.login-card {
+    max-width: 400px;
+}
+
+.auth-card.signup-card {
+    max-width: 500px;
+}
+
+/* Floating Theme Toggle */
+.theme-toggle-floating {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: var(--shadow);
+}
+
+.theme-toggle-floating:hover {
+    background-color: var(--bg-secondary);
+    transform: rotate(180deg);
+}
+
+.theme-toggle-floating .sun-icon,
+.theme-toggle-floating .moon-icon {
+    color: var(--text-primary);
+}
+
+body[data-theme="dark"] .theme-toggle-floating .sun-icon {
+    display: none;
+}
+
+body[data-theme="dark"] .theme-toggle-floating .moon-icon {
+    display: block;
+}
+
+body:not([data-theme="dark"]) .theme-toggle-floating .sun-icon {
+    display: block;
+}
+
+body:not([data-theme="dark"]) .theme-toggle-floating .moon-icon {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .auth-page {
+        padding: 1rem;
+    }
+    
+    .auth-card {
+        padding: 1.5rem;
+    }
+    
+    .theme-toggle-floating {
+        width: 45px;
+        height: 45px;
+        top: 15px;
+        right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 1rem;
+    }
+}
