@@ -35,14 +35,19 @@
             {% if user.is_authenticated %}
                 <!-- Check-in LED & Button -->
                 <div class="check-in-section">
-                    <div class="led-indicator {% if user.is_checked_in %}led-green{% else %}led-red{% endif %}"></div>
-                    <button class="btn-check-in" id="checkInBtn">
-                        {% if user.is_checked_in %}
-                            Check Out
-                        {% else %}
-                            Check In
-                        {% endif %}
-                    </button>
+                    <div class="led-indicator {% if user.is_checked_in or user.done_for_day %}led-green{% else %}led-red{% endif %}"></div>
+                    <form method="post" action="{% url 'attendance:toggle' %}">
+                        {% csrf_token %}
+                        <button class="btn-check-in" id="checkInBtn" {% if user.done_for_day %} disabled {% endif %}>
+                            {% if user.is_checked_in and not user.done_for_day %}
+                                Check Out
+                            {% elif user.done_for_day %}
+                                Done for day
+                            {% else %}
+                                Check In
+                            {% endif %}
+                        </button>
+                    </form>
                 </div>
 
                 <!-- Profile Dropdown -->

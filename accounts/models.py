@@ -69,6 +69,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     # Check-in status
     is_checked_in = models.BooleanField(default=False)
+    done_for_day = models.BooleanField(null=True, blank=True )
     last_check_in = models.DateTimeField(null=True, blank=True)
     last_check_out = models.DateTimeField(null=True, blank=True)
     
