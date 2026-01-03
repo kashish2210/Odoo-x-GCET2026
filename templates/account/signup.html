@@ -13,11 +13,11 @@
         <div class="auth-card signup-card">
             <div class="auth-header">
                 <div class="app-logo-section">
-                    <span class="app-name">App/Web Logo</span>
+                    <span class="app-name">Company Registration</span>
                 </div>
             </div>
 
-            <h2 class="auth-title">Sign Up Page</h2>
+            <h2 class="auth-title">Sign Up</h2>
 
             {% if form.non_field_errors %}
                 <div class="error-message">
@@ -28,37 +28,10 @@
             <form method="post" enctype="multipart/form-data" class="auth-form">
                 {% csrf_token %}
                 
-                <div class="form-group logo-upload-group">
-                    <label class="form-label">Company Name :-</label>
-                    <div class="company-name-row">
-                        <div class="company-input-wrapper">
-                            {{ form.company_name }}
-                            {% if form.company_name.errors %}
-                                <span class="field-error">{{ form.company_name.errors.0 }}</span>
-                            {% endif %}
-                        </div>
-                        <div class="upload-section" id="uploadSection">
-                            <label for="id_logo" class="upload-label">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="17 8 12 3 7 8"></polyline>
-                                    <line x1="12" y1="3" x2="12" y2="15"></line>
-                                </svg>
-                            </label>
-                            {{ form.logo }}
-                        </div>
-                    </div>
-                    <div id="logoPreviewContainer" style="display: none; margin-top: 0.5rem;">
-                        <img id="logoPreviewImage" class="logo-preview" alt="Logo Preview">
-                    </div>
-                    {% if form.logo.errors %}
-                        <span class="field-error">{{ form.logo.errors.0 }}</span>
-                    {% endif %}
-                </div>
-
+                <!-- Employee ID -->
                 <div class="form-group">
                     <label for="{{ form.login_id.id_for_label }}" class="form-label">
-                        Name :-
+                        Employee ID
                     </label>
                     {{ form.login_id }}
                     {% if form.login_id.errors %}
@@ -66,9 +39,10 @@
                     {% endif %}
                 </div>
 
+                <!-- Email -->
                 <div class="form-group">
                     <label for="{{ form.email.id_for_label }}" class="form-label">
-                        Email :-
+                        Email
                     </label>
                     {{ form.email }}
                     {% if form.email.errors %}
@@ -76,17 +50,26 @@
                     {% endif %}
                 </div>
 
+                <!-- Company Logo -->
                 <div class="form-group">
-                    <label for="{{ form.phone.id_for_label }}" class="form-label">Phone :-</label>
-                    {{ form.phone }}
-                    {% if form.phone.errors %}
-                        <span class="field-error">{{ form.phone.errors.0 }}</span>
+                    <label for="{{ form.company_logo.id_for_label }}" class="form-label">
+                        Company Logo (Optional)
+                    </label>
+                    <div class="logo-upload-wrapper">
+                        <input type="file" id="id_logo" name="company_logo" accept="image/*" class="file-input">
+                        <div id="logoPreview" class="logo-preview" style="display: none;">
+                            <img id="logoPreviewImg" src="" alt="Logo Preview">
+                        </div>
+                    </div>
+                    {% if form.company_logo.errors %}
+                        <span class="field-error">{{ form.company_logo.errors.0 }}</span>
                     {% endif %}
                 </div>
 
+                <!-- Password -->
                 <div class="form-group">
                     <label for="{{ form.password1.id_for_label }}" class="form-label">
-                        Password :-
+                        Password
                     </label>
                     <div class="password-wrapper">
                         {{ form.password1 }}
@@ -102,9 +85,10 @@
                     {% endif %}
                 </div>
 
+                <!-- Confirm Password -->
                 <div class="form-group">
                     <label for="{{ form.password2.id_for_label }}" class="form-label">
-                        Confirm Password :-
+                        Confirm Password
                     </label>
                     <div class="password-wrapper">
                         {{ form.password2 }}
@@ -149,26 +133,16 @@
     <script src="{% static 'js/theme.js' %}"></script>
     <script src="{% static 'js/auth.js' %}"></script>
     <script>
-        // Logo preview functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const logoInput = document.getElementById('id_logo');
-            const logoPreviewContainer = document.getElementById('logoPreviewContainer');
-            const logoPreviewImage = document.getElementById('logoPreviewImage');
-            const uploadSection = document.getElementById('uploadSection');
-            
-            if (logoInput) {
-                logoInput.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            logoPreviewImage.src = e.target.result;
-                            logoPreviewContainer.style.display = 'block';
-                            uploadSection.style.backgroundColor = 'var(--bg-secondary)';
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
+        // Logo preview
+        document.getElementById('id_logo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('logoPreviewImg').src = e.target.result;
+                    document.getElementById('logoPreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
             }
         });
     </script>

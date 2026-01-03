@@ -48,19 +48,29 @@
         <!-- Top Section -->
         <section class="profile-summary">
             <div class="profile-avatar">
-                <div class="avatar-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
+                <div class="avatar-circle" id="avatarCircle">
+                    {% if user.profile_avatar %}
+                        <img src="{{ user.profile_avatar.url }}" alt="Profile Avatar" class="avatar-img">
+                    {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    {% endif %}
                 </div>
-                <button type="button" class="btn-edit-avatar">
+                <button type="button" class="btn-edit-avatar" onclick="document.getElementById('profileAvatarInput').click()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                     </svg>
                     Edit Photo
                 </button>
+                
+                <!-- Hidden file input for avatar upload -->
+                <form id="profileAvatarForm" method="post" enctype="multipart/form-data" style="display: none;">
+                    {% csrf_token %}
+                    <input type="file" id="profileAvatarInput" name="profile_avatar" accept="image/*">
+                </form>
             </div>
 
             <div class="profile-basic-info">
@@ -418,5 +428,55 @@
 
 <script src="{% static 'js/theme.js' %}"></script>
 <script src="{% static 'employees/profile.js' %}"></script>
+
+<!-- Profile Avatar Upload Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Profile avatar upload
+    const profileAvatarInput = document.getElementById('profileAvatarInput');
+    
+    if (profileAvatarInput) {
+        profileAvatarInput.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Show loading state
+                const avatarCircle = document.getElementById('avatarCircle');
+                avatarCircle.style.opacity = '0.5';
+                
+                const formData = new FormData();
+                formData.append('profile_avatar', file);
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+                
+                try {
+                    const response = await fetch('{% url "update_profile_avatar" %}', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    if (data.success) {
+                        // Update avatar display immediately
+                        avatarCircle.innerHTML = `<img src="${data.avatar_url}" alt="Profile Avatar" class="avatar-img">`;
+                        avatarCircle.style.opacity = '1';
+                        
+                        // Show success message
+                        alert('Profile picture updated successfully!');
+                        
+                        // Reload page to update header avatar
+                        setTimeout(() => location.reload(), 500);
+                    } else {
+                        avatarCircle.style.opacity = '1';
+                        alert('Error uploading avatar: ' + (data.error || 'Unknown error'));
+                    }
+                } catch (error) {
+                    avatarCircle.style.opacity = '1';
+                    alert('Error uploading avatar. Please try again.');
+                    console.error('Upload error:', error);
+                }
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>

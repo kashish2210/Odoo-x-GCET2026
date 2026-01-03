@@ -1,9 +1,7 @@
 from django.db import models
-
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin, BaseUserManager
 )
-from django.db import models
 
 
 class UserManager(BaseUserManager):
@@ -45,6 +43,22 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text="Employee ID / Login ID"
     )
     email = models.EmailField(unique=True)
+    
+    # Company Logo
+    company_logo = models.ImageField(
+        upload_to='company_logos/',
+        blank=True,
+        null=True,
+        help_text="Company logo"
+    )
+    
+    # Profile Avatar
+    profile_avatar = models.ImageField(
+        upload_to='profile_avatars/',
+        blank=True,
+        null=True,
+        help_text="User profile picture"
+    )
 
     role = models.CharField(
         max_length=20,
@@ -54,6 +68,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    
+    # Check-in status
+    is_checked_in = models.BooleanField(default=False)
+    last_check_in = models.DateTimeField(null=True, blank=True)
+    last_check_out = models.DateTimeField(null=True, blank=True)
 
     date_joined = models.DateTimeField(auto_now_add=True)
 
