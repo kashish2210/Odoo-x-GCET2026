@@ -1,222 +1,422 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'employees/profile.css' %}">
 </head>
 <body>
 
 <div class="profile-page">
-
     <!-- Header -->
     <header class="profile-header">
-        <h1>My Profile</h1>
+        <div class="container">
+            <div class="header-content">
+                <h1>My Profile</h1>
+                <div class="header-actions">
+                    <a href="/" class="btn-back">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        Back to Dashboard
+                    </a>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <!-- Top Section -->
-    <section class="profile-summary">
-        <div class="profile-avatar">
-            <div class="avatar-circle">
-                <button type="button">Edit</button>
+    <div class="container">
+        <!-- Top Section -->
+        <section class="profile-summary">
+            <div class="profile-avatar">
+                <div class="avatar-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <button type="button" class="btn-edit-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    Edit Photo
+                </button>
             </div>
-        </div>
 
-        <div class="profile-basic-info">
-            <h2>My Name</h2>
-
-            <div class="info-grid">
-                <div>
-                    <label>Job Position</label>
-                    <p>—</p>
+            <div class="profile-basic-info">
+                <div class="profile-name-section">
+                    <h2>
+                        {% if user.first_name and user.last_name %}
+                            {{ user.first_name }} {{ user.last_name }}
+                        {% elif user.first_name %}
+                            {{ user.first_name }}
+                        {% elif user.login_id %}
+                            {{ user.login_id }}
+                        {% else %}
+                            {{ user.email }}
+                        {% endif %}
+                    </h2>
+                    <button class="btn-edit-profile">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                        Edit Profile
+                    </button>
                 </div>
 
-                <div>
-                    <label>Company</label>
-                    <p>—</p>
-                </div>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <label>Job Position</label>
+                            <p>—</p>
+                        </div>
+                    </div>
 
-                <div>
-                    <label>Email</label>
-                    <p>—</p>
-                </div>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <label>Company</label>
+                            <p>—</p>
+                        </div>
+                    </div>
 
-                <div>
-                    <label>Department</label>
-                    <p>—</p>
-                </div>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        <div>
+                            <label>Email</label>
+                            <p>{{ user.email|default:"—" }}</p>
+                        </div>
+                    </div>
 
-                <div>
-                    <label>Mobile</label>
-                    <p>—</p>
-                </div>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <label>Department</label>
+                            <p>—</p>
+                        </div>
+                    </div>
 
-                <div>
-                    <label>Manager</label>
-                    <p>—</p>
-                </div>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <label>Mobile</label>
+                            <p>—</p>
+                        </div>
+                    </div>
 
-                <div>
-                    <label>Location</label>
-                    <p>—</p>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <div>
+                            <label>Manager</label>
+                            <p>—</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div>
+                            <label>Location</label>
+                            <p>—</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Tabs -->
-    <nav class="profile-tabs">
-        <button class="tab active" data-tab="resume">Resume</button>
-        <button class="tab" data-tab="private">Private Info</button>
-        <button class="tab" data-tab="salary">Salary Info</button>
-        <button class="tab" data-tab="security">Security</button>
-    </nav>
+        <!-- Tabs -->
+        <nav class="profile-tabs">
+            <button class="tab active" data-tab="resume">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+                Resume
+            </button>
+            <button class="tab" data-tab="private">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                Private Info
+            </button>
+            <button class="tab" data-tab="salary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                Salary Info
+            </button>
+            <button class="tab" data-tab="security">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                Security
+            </button>
+        </nav>
 
-    <!-- Tab Content -->
-    <section class="tab-content">
-
-        <!-- Resume -->
-        <div class="tab-panel active" id="resume">
-            <p>Resume content goes here.</p>
-        </div>
-
-        <!-- Private Info -->
-        <div class="tab-panel" id="private">
-
-            <div class="private-info-grid">
-
-                <div class="private-column">
-                    <h3>Personal Details</h3>
-
-                    <div class="field">
-                        <label>Date of Birth</label>
-                        <p>—</p>
-                    </div>
-
-                    <div class="field">
-                        <label>Residing Address</label>
-                        <p>—</p>
-                    </div>
-
-                    <div class="field">
-                        <label>Nationality</label>
-                        <p>—</p>
-                    </div>
-
-                    <div class="field">
-                        <label>Personal Email</label>
-                        <p>—</p>
-                    </div>
-
-                    <div class="field">
-                        <label>Gender</label>
-                        <p>—</p>
-                    </div>
-
-                    <div class="field">
-                        <label>Marital Status</label>
-                        <p>—</p>
-                    </div>
-
-                    <div class="field">
-                        <label>Date of Joining</label>
-                        <p>—</p>
-                    </div>
+        <!-- Tab Content -->
+        <section class="tab-content">
+            <!-- Resume -->
+            <div class="tab-panel active" id="resume">
+                <div class="content-card">
+                    <h3>Resume</h3>
+                    <p class="empty-state">No resume information available yet.</p>
+                    <button class="btn-primary">Add Resume</button>
                 </div>
-
-                <div class="private-column">
-                    <h3>Bank Details</h3>
-
-                    <div class="field">
-                        <label>Account Number</label>
-                        <p>—</p>
-                    </div>
-
-                    <div class="field">
-                        <label>Bank Name</label>
-                        <p>—</p>
-                    </div>
-
-                    <div class="field">
-                        <label>IFSC Code</label>
-                        <p>—</p>
-                    </div>
-
-                    <div class="field">
-                        <label>PAN No</label>
-                        <p>—</p>
-                    </div>
-
-                    <div class="field">
-                        <label>UAN No</label>
-                        <p>—</p>
-                    </div>
-
-                    <div class="field">
-                        <label>Emp Code</label>
-                        <p>—</p>
-                    </div>
-                </div>
-
             </div>
-        </div>
 
-        <!-- Salary Info -->
-        <div class="tab-panel" id="salary">
-            {% if salary_info %}
-                <h3>Salary Info</h3>
-                <p>Monthly Wage: ₹{{ salary_info.monthly_wage }}</p>
-                <p>Yearly Wage: ₹{{ salary_info.yearly_wage }}</p>
-                <p>Working Days/Week: {{ salary_info.working_days_per_week }}</p>
-                {% if salary_info.break_time_hours %}
-                    <p>Break Time: {{ salary_info.break_time_hours }} hrs</p>
-                {% endif %}
+            <!-- Private Info -->
+            <div class="tab-panel" id="private">
+                <div class="private-info-grid">
+                    <div class="content-card">
+                        <h3>Personal Details</h3>
+                        
+                        <div class="field">
+                            <label>Date of Birth</label>
+                            <p>—</p>
+                        </div>
 
-                {% if components %}
-                    <h4>Salary Components</h4>
-                    <ul>
-                        {% for comp in components %}
-                            <li>
-                                {{ comp.component_type }}: ₹{{ comp.monthly_amount }}
-                                {% if comp.percentage_of_basic %}
-                                    ({{ comp.percentage_of_basic }}%)
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+                        <div class="field">
+                            <label>Residing Address</label>
+                            <p>—</p>
+                        </div>
 
-                {% if pf %}
-                    <h4>Provident Fund (PF) Contribution</h4>
-                    <p>Employee: ₹{{ pf.employee_contribution }} ({{ pf.employee_percentage }}%)</p>
-                    <p>Employer: ₹{{ pf.employer_contribution }} ({{ pf.employer_percentage }}%)</p>
-                {% endif %}
+                        <div class="field">
+                            <label>Nationality</label>
+                            <p>—</p>
+                        </div>
 
-                {% if tax_deductions %}
-                    <h4>Tax Deductions</h4>
-                    <ul>
-                        {% for tax in tax_deductions %}
-                            <li>{{ tax.deduction_type }}: ₹{{ tax.monthly_amount }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% else %}
-                <p>Salary information not available.</p>
-            {% endif %}
-        </div>
+                        <div class="field">
+                            <label>Personal Email</label>
+                            <p>—</p>
+                        </div>
 
+                        <div class="field">
+                            <label>Gender</label>
+                            <p>—</p>
+                        </div>
 
-        <!-- Security -->
-        <div class="tab-panel" id="security">
-            <p>Security settings go here.</p>
-        </div>
+                        <div class="field">
+                            <label>Marital Status</label>
+                            <p>—</p>
+                        </div>
 
-    </section>
+                        <div class="field">
+                            <label>Date of Joining</label>
+                            <p>—</p>
+                        </div>
 
+                        <button class="btn-primary">Edit Details</button>
+                    </div>
+
+                    <div class="content-card">
+                        <h3>Bank Details</h3>
+
+                        <div class="field">
+                            <label>Account Number</label>
+                            <p>—</p>
+                        </div>
+
+                        <div class="field">
+                            <label>Bank Name</label>
+                            <p>—</p>
+                        </div>
+
+                        <div class="field">
+                            <label>IFSC Code</label>
+                            <p>—</p>
+                        </div>
+
+                        <div class="field">
+                            <label>PAN No</label>
+                            <p>—</p>
+                        </div>
+
+                        <div class="field">
+                            <label>UAN No</label>
+                            <p>—</p>
+                        </div>
+
+                        <div class="field">
+                            <label>Emp Code</label>
+                            <p>—</p>
+                        </div>
+
+                        <button class="btn-primary">Edit Bank Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Salary Info -->
+            <div class="tab-panel" id="salary">
+                <div class="content-card">
+                    {% if salary_info %}
+                        <h3>Salary Information</h3>
+                        
+                        <div class="salary-summary">
+                            <div class="salary-card">
+                                <label>Monthly Wage</label>
+                                <p class="amount">₹{{ salary_info.monthly_wage }}</p>
+                            </div>
+                            <div class="salary-card">
+                                <label>Yearly Wage</label>
+                                <p class="amount">₹{{ salary_info.yearly_wage }}</p>
+                            </div>
+                            <div class="salary-card">
+                                <label>Working Days/Week</label>
+                                <p class="amount">{{ salary_info.working_days_per_week }}</p>
+                            </div>
+                            {% if salary_info.break_time_hours %}
+                            <div class="salary-card">
+                                <label>Break Time</label>
+                                <p class="amount">{{ salary_info.break_time_hours }} hrs</p>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% if components %}
+                        <h4>Salary Components</h4>
+                        <div class="component-list">
+                            {% for comp in components %}
+                            <div class="component-item">
+                                <span>{{ comp.component_type }}</span>
+                                <span class="component-amount">
+                                    ₹{{ comp.monthly_amount }}
+                                    {% if comp.percentage_of_basic %}
+                                    <small>({{ comp.percentage_of_basic }}%)</small>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        {% if pf %}
+                        <h4>Provident Fund (PF) Contribution</h4>
+                        <div class="pf-grid">
+                            <div class="pf-card">
+                                <label>Employee Contribution</label>
+                                <p>₹{{ pf.employee_contribution }} <small>({{ pf.employee_percentage }}%)</small></p>
+                            </div>
+                            <div class="pf-card">
+                                <label>Employer Contribution</label>
+                                <p>₹{{ pf.employer_contribution }} <small>({{ pf.employer_percentage }}%)</small></p>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if tax_deductions %}
+                        <h4>Tax Deductions</h4>
+                        <div class="component-list">
+                            {% for tax in tax_deductions %}
+                            <div class="component-item">
+                                <span>{{ tax.deduction_type }}</span>
+                                <span class="component-amount">₹{{ tax.monthly_amount }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        <h3>Salary Information</h3>
+                        <p class="empty-state">Salary information not available.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Security -->
+            <div class="tab-panel" id="security">
+                <div class="content-card">
+                    <h3>Security Settings</h3>
+                    
+                    <div class="security-section">
+                        <div class="security-item">
+                            <div>
+                                <h4>Password</h4>
+                                <p>Last changed: Never</p>
+                            </div>
+                            <a href="{% url 'account_change_password' %}" class="btn-secondary">Change Password</a>
+                        </div>
+
+                        <div class="security-item">
+                            <div>
+                                <h4>Two-Factor Authentication</h4>
+                                <p>Add an extra layer of security</p>
+                            </div>
+                            <button class="btn-secondary">Enable 2FA</button>
+                        </div>
+
+                        <div class="security-item">
+                            <div>
+                                <h4>Active Sessions</h4>
+                                <p>Manage your active sessions</p>
+                            </div>
+                            <button class="btn-secondary">View Sessions</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 </div>
 
+<script src="{% static 'js/theme.js' %}"></script>
 <script src="{% static 'employees/profile.js' %}"></script>
 </body>
 </html>

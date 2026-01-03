@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="dashboard-header-content">
+            <div class="logo" id="dashboardLogo">
+                <span class="logo-text">Company Logo</span>
+            </div>
+            
+            <nav class="dashboard-nav">
+                <a href="{% url 'dashboard' %}" class="nav-item active">Employees</a>
+                <a href="#" class="nav-item disabled">Attendance</a>
+                <a href="#" class="nav-item disabled">Time Off</a>
+            </nav>
+            
+            <div class="header-actions">
+                <!-- Profile Avatar Dropdown -->
+                <div class="profile-dropdown">
+                    <button class="profile-avatar-btn" id="profileDropdownBtn">
+                        <div class="avatar-small">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="dropdown-menu" id="profileDropdownMenu">
+                        <a href="{% url 'profile' %}" class="dropdown-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            My Profile
+                        </a>
+                        <a href="{% url 'account_logout' %}" class="dropdown-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            Log Out
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        <!-- Main Content -->
+        <main class="dashboard-main-full">
+            <!-- Top Actions Bar -->
+            <div class="dashboard-actions">
+                <div class="search-section">
+                    <div class="search-bar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="Search employees...">
+                    </div>
+                </div>
+                
+                <button class="btn-new" id="addEmployeeBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    NEW
+                </button>
+            </div>
+
+            <!-- Settings Button (Bottom Left) -->
+            <button class="settings-btn" id="settingsBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3m15.364 6.364l-4.243-4.243m-6.122 0L3.636 18.364m16.728 0l-4.243-4.243m-6.122 0l-4.243 4.243"></path>
+                </svg>
+                Settings
+            </button>
+
+            <!-- Employee Cards Grid -->
+            <div class="employee-grid" id="employeeGrid">
+                {% for employee in employees %}
+                <div class="employee-card" data-employee-id="{{ employee.id }}">
+                    <div class="employee-card-header">
+                        <div class="employee-avatar">
+                            {% if employee.profile_picture %}
+                                <img src="{{ employee.profile_picture.url }}" alt="{{ employee.name }}">
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Status Indicator -->
+                        <div class="status-indicator status-{{ employee.attendance_status|lower }}" 
+                             title="{% if employee.attendance_status == 'present' %}Present in office{% elif employee.attendance_status == 'leave' %}On leave{% else %}Absent{% endif %}">
+                            {% if employee.attendance_status == 'present' %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                            {% elif employee.attendance_status == 'leave' %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                </svg>
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="employee-info">
+                        <h3>{{ employee.name }}</h3>
+                        <p class="employee-role">{{ employee.job_position|default:"—" }}</p>
+                        <p class="employee-dept">{{ employee.department|default:"—" }}</p>
+                    </div>
+
+                    <!-- Attendance Time -->
+                    {% if employee.attendance_status == 'present' and employee.check_in_time %}
+                    <div class="attendance-time">
+                        <small>Since {{ employee.check_in_time|time:"H:i" }}</small>
+                    </div>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <div class="empty-state-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <h3>No Employees Yet</h3>
+                    <p>Click "NEW" to add your first employee</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Legend -->
+            <div class="status-legend">
+                <div class="legend-item">
+                    <span class="legend-dot present"></span>
+                    <span>Present in office</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot leave"></span>
+                    <span>On leave</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot absent"></span>
+                    <span>Absent (No time off applied)</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{% static 'js/theme.js' %}"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+</body>
+</html>
