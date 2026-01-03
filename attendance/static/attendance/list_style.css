@@ -60,3 +60,99 @@
     color: #666;
     font-style: italic;
 }
+
+/* Container for the whole form */
+.attendance-filters {
+    background-color: #121212; /* Darker background like the mockup */
+    padding: 12px 20px;
+    border-bottom: 1px solid #333;
+    margin-bottom: 0; /* Align directly against the table top */
+}
+
+/* Force everything into a single line */
+.filter-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start; /* Align to the left */
+    gap: 15px; /* Space between elements */
+    flex-wrap: nowrap; /* Prevent wrapping to a new line */
+}
+
+/* Date Navigation Grouping */
+.date-navigation {
+    display: flex;
+    align-items: center;
+    border: 1px solid #444;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #000;
+}
+
+.date-navigation input[type="date"] {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+}
+
+/* The <- and -> buttons */
+.nav-btn {
+    background: #2a2a2a;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.nav-btn:hover {
+    background: #444;
+}
+
+/* Select Dropdown */
+.employee-selector select {
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 7px 12px;
+    border-radius: 4px;
+    min-width: 180px;
+    outline: none;
+}
+
+/* Submit and Clear Buttons */
+.filter-submit-btn {
+    background: #34495e; /* Subdued blue-grey */
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.filter-submit-btn:hover {
+    background: #465d75;
+}
+
+.clear-btn {
+    color: #888;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.clear-btn:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Style the calendar icon for webkit browsers */
+::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Makes the icon white */
+    cursor: pointer;
+}

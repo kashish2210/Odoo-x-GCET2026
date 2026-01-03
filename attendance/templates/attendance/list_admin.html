@@ -6,19 +6,31 @@
 
 {% block list %} 
 <div class="attendance-container">
-    <div class="table-header">
-        <h2>Attendance</h2>
-        <div class="search-bar">
-            <input type="text" placeholder="Searchbar">
-        </div>
-    </div>
+    <form id="filterForm" method="GET" action="{% url 'attendance:list' %}" class="attendance-filters">
+        <div class="filter-row">
+            <div class="date-navigation">
+                <button type="button" class="nav-btn" onclick="adjustDate(-1)">&lt;-</button>
+                <input type="date" name="date" id="dateInput" value="{{ selected_date }}">
+                <button type="button" class="nav-btn" onclick="adjustDate(1)">-&gt;</button>
+            </div>
 
-    <div class="date-navigation">
-        <button class="nav-btn">&lt;-</button>
-        <button class="nav-btn">-&gt;</button>
-        <button class="date-dropdown">Date v</button>
-        <div class="day-display">Day</div>
-    </div>
+            {% if employees %}
+            <div class="employee-selector">
+                <select name="employee">
+                    <option value="">All Employees</option>
+                    {% for emp in employees %}
+                        <option value="{{ emp.id }}" {% if selected_employee == emp.id|stringformat:"s" %}selected{% endif %}>
+                            {{ emp.email }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
+
+            <button type="submit" class="filter-submit-btn">Filter</button>
+            <a href="{% url 'attendance:list' %}" class="clear-btn">Clear</a>
+        </div>
+    </form>
 
     <table class="attendance-table">
         <thead>
@@ -47,4 +59,21 @@
         </tbody>
     </table>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>function adjustDate(days) {
+    const dateInput = document.getElementById('dateInput');
+    const currentDate = new Date(dateInput.value);
+    
+    if (!isNaN(currentDate.getTime())) {
+        currentDate.setDate(currentDate.getDate() + days);
+        // Format back to YYYY-MM-DD
+        const newDateStr = currentDate.toISOString().split('T')[0];
+        dateInput.value = newDateStr;
+        
+        // Optional: Auto-submit when clicking arrows
+        // document.getElementById('filterForm').submit();
+    }
+}</script>
 {% endblock %}
