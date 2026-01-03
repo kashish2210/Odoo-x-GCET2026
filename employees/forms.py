@@ -5,6 +5,15 @@ User = get_user_model()
 
 
 class AddEmployeeForm(forms.ModelForm):
+    # Get the role choices from the User model
+    role = forms.ChoiceField(
+        choices=[('', 'Select Role')] + list(User._meta.get_field('role').choices),
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+            'required': True
+        })
+    )
+    
     class Meta:
         model = User
         fields = [
@@ -13,6 +22,20 @@ class AddEmployeeForm(forms.ModelForm):
             'role',
             'profile_avatar',
         ]
+        widgets = {
+            'login_id': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter employee login ID'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'employee@company.com'
+            }),
+            'profile_avatar': forms.FileInput(attrs={
+                'class': 'form-control',
+                'accept': 'image/*'
+            })
+        }
 
 
 class EditEmployeeForm(forms.ModelForm):

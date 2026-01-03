@@ -33,6 +33,10 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
     }
     
     .btn-primary:hover {
@@ -40,62 +44,94 @@
         transform: translateY(-1px);
     }
     
-    .employees-table-container {
+    .search-bar {
+        margin-bottom: 24px;
+        max-width: 400px;
+    }
+    
+    .search-bar input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 14px;
+        background: var(--card-bg);
+        color: var(--text-primary);
+    }
+    
+    .search-bar input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+    
+    .employees-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        margin-top: 24px;
+    }
+    
+    .employee-card {
         background: var(--card-bg);
         border-radius: 12px;
-        padding: 24px;
+        padding: 20px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        overflow-x: auto;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        text-decoration: none;
+        color: inherit;
+        display: block;
     }
     
-    .employees-table {
-        width: 100%;
-        border-collapse: collapse;
+    .employee-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     }
     
-    .employees-table thead {
-        border-bottom: 2px solid var(--border-color);
-    }
-    
-    .employees-table th {
-        padding: 12px;
-        text-align: left;
-        font-weight: 600;
-        color: var(--text-secondary);
-        font-size: 14px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    
-    .employees-table td {
-        padding: 16px 12px;
-        border-bottom: 1px solid var(--border-color);
-    }
-    
-    .employees-table tbody tr {
-        transition: background 0.2s ease;
-    }
-    
-    .employees-table tbody tr:hover {
-        background: var(--hover-bg);
-    }
-    
-    .employee-info {
+    .status-indicator {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
-        gap: 12px;
+        justify-content: center;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid var(--border-color);
     }
     
-    .employee-avatar {
-        width: 40px;
-        height: 40px;
+    .status-present {
+        background: #d4edda;
+        border-color: #28a745;
+    }
+    
+    .status-on-leave {
+        background: #d1ecf1;
+        border-color: #17a2b8;
+    }
+    
+    .status-absent {
+        background: #fff3cd;
+        border-color: #ffc107;
+    }
+    
+    .employee-card-avatar {
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
+        margin: 0 auto 16px;
+        display: block;
         object-fit: cover;
+        border: 3px solid var(--border-color);
     }
     
-    .employee-avatar-placeholder {
-        width: 40px;
-        height: 40px;
+    .employee-card-avatar-placeholder {
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         background: var(--primary-color);
         color: white;
@@ -103,23 +139,47 @@
         align-items: center;
         justify-content: center;
         font-weight: 600;
-        font-size: 14px;
+        font-size: 32px;
+        margin: 0 auto 16px;
+        border: 3px solid var(--border-color);
     }
     
-    .employee-details {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .employee-name {
+    .employee-card-name {
+        font-size: 18px;
         font-weight: 600;
         color: var(--text-primary);
-        margin-bottom: 2px;
+        text-align: center;
+        margin-bottom: 4px;
     }
     
-    .employee-id {
+    .employee-card-id {
         font-size: 13px;
         color: var(--text-secondary);
+        text-align: center;
+        margin-bottom: 12px;
+    }
+    
+    .employee-card-info {
+        border-top: 1px solid var(--border-color);
+        padding-top: 12px;
+        margin-top: 12px;
+    }
+    
+    .employee-card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+    
+    .employee-card-label {
+        color: var(--text-secondary);
+    }
+    
+    .employee-card-value {
+        color: var(--text-primary);
+        font-weight: 500;
     }
     
     .status-badge {
@@ -140,29 +200,11 @@
         color: #721c24;
     }
     
-    .btn-sm {
-        padding: 6px 16px;
-        border-radius: 6px;
-        font-size: 13px;
-        font-weight: 600;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-        transition: all 0.2s ease;
-    }
-    
-    .btn-sm:hover {
-        opacity: 0.9;
-        transform: translateY(-1px);
-    }
-    
     .empty-state {
         text-align: center;
         padding: 60px 20px;
         color: var(--text-secondary);
+        grid-column: 1 / -1;
     }
     
     .empty-state svg {
@@ -176,82 +218,110 @@
 <div class="employees-page">
     <div class="employees-header">
         <h1>Employees</h1>
-        <button class="btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px;">
+        <a href="{% url 'employee:add_employee' %}" class="btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
             Add Employee
-        </button>
+        </a>
     </div>
     
-    <div class="employees-table-container">
-        <table class="employees-table">
-            <thead>
-                <tr>
-                    <th>Employee</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Joined Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for employee in employees %}
-                <tr>
-                    <td>
-                        <div class="employee-info">
-                            {% if employee.profile_avatar %}
-                                <img src="{{ employee.profile_avatar.url }}" alt="{{ employee.login_id }}" class="employee-avatar">
-                            {% else %}
-                                <div class="employee-avatar-placeholder">
-                                    {{ employee.login_id|slice:":2"|upper }}
-                                </div>
-                            {% endif %}
-                            <div class="employee-details">
-                                <span class="employee-name">{{ employee.login_id }}</span>
-                                <span class="employee-id">{{ employee.login_id }}</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td>{{ employee.email }}</td>
-                    <td>{{ employee.get_role_display }}</td>
-                    <td>
-                        <span class="status-badge {% if employee.is_active %}status-active{% else %}status-inactive{% endif %}">
-                            {% if employee.is_active %}Active{% else %}Inactive{% endif %}
-                        </span>
-                    </td>
-                    <td>{{ employee.date_joined|date:"M d, Y" }}</td>
-                    <td>
-                        <a href="{% url 'employee:profile' %}" class="btn-sm">View</a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6">
-                        <div class="empty-state">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
-                            <p>No employees found</p>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search employees...">
+    </div>
+    
+    <div class="employees-grid">
+        {% for employee in employees %}
+        <a href="{% url 'employee:employee_detail' employee.id %}" class="employee-card">
+            <!-- Status Indicator -->
+            <div class="status-indicator 
+                {% if employee.attendance_status == 'present' %}status-present
+                {% elif employee.attendance_status == 'on_leave' %}status-on-leave
+                {% elif employee.attendance_status == 'absent' %}status-absent
+                {% endif %}">
+                {% if employee.attendance_status == 'present' %}
+                    🟢
+                {% elif employee.attendance_status == 'on_leave' %}
+                    ✈️
+                {% elif employee.attendance_status == 'absent' %}
+                    🟡
+                {% endif %}
+            </div>
+            
+            <!-- Avatar -->
+            {% if employee.profile_avatar %}
+                <img src="{{ employee.profile_avatar.url }}" alt="{{ employee.login_id }}" class="employee-card-avatar">
+            {% else %}
+                <div class="employee-card-avatar-placeholder">
+                    {{ employee.login_id|slice:":2"|upper }}
+                </div>
+            {% endif %}
+            
+            <!-- Name and ID -->
+            <div class="employee-card-name">{{ employee.login_id }}</div>
+            <div class="employee-card-id">{{ employee.login_id }}</div>
+            
+            <!-- Additional Info -->
+            <div class="employee-card-info">
+                <div class="employee-card-row">
+                    <span class="employee-card-label">Email:</span>
+                    <span class="employee-card-value">{{ employee.email|truncatechars:20 }}</span>
+                </div>
+                <div class="employee-card-row">
+                    <span class="employee-card-label">Role:</span>
+                    <span class="employee-card-value">{{ employee.get_role_display }}</span>
+                </div>
+                <div class="employee-card-row">
+                    <span class="employee-card-label">Status:</span>
+                    <span class="status-badge {% if employee.is_active %}status-active{% else %}status-inactive{% endif %}">
+                        {% if employee.is_active %}Active{% else %}Inactive{% endif %}
+                    </span>
+                </div>
+                <div class="employee-card-row">
+                    <span class="employee-card-label">Joined:</span>
+                    <span class="employee-card-value">{{ employee.date_joined|date:"M d, Y" }}</span>
+                </div>
+            </div>
+        </a>
+        {% empty %}
+        <div class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <p>No employees found</p>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-// Add active state to navigation
+// Search functionality
 document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const employeeCards = document.querySelectorAll('.employee-card');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            employeeCards.forEach(card => {
+                const cardText = card.textContent.toLowerCase();
+                if (cardText.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Add active state to navigation
     const currentPath = window.location.pathname;
     const navItems = document.querySelectorAll('.dashboard-nav .nav-item');
     
