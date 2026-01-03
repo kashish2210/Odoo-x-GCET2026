@@ -151,7 +151,18 @@ ACCOUNT_UNIQUE_EMAIL = True
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# Redirect after login
+LOGIN_REDIRECT_URL = '/'
 
+# Redirect after logout (optional)
+LOGOUT_REDIRECT_URL = '/'
+
+# Redirect after signup (optional)
+ACCOUNT_SIGNUP_REDIRECT_URL = '/'
+
+# Redirect after email confirmation (optional)
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'
 ACCOUNT_FORMS = {
     "signup": "accounts.forms.CustomSignupForm",
 }
