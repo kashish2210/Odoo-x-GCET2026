@@ -59,3 +59,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+// Logo preview functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const logoInput = document.getElementById('id_logo');
+    const logoPreview = document.getElementById('logoPreview');
+    
+    if (logoInput && logoPreview) {
+        // Make preview clickable
+        logoPreview.addEventListener('click', function() {
+            logoInput.click();
+        });
+        
+        // Handle file selection
+        logoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoPreview.innerHTML = `<img src="${e.target.result}" alt="Logo Preview">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+});

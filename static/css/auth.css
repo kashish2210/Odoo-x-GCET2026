@@ -94,3 +94,51 @@ body:not([data-theme="dark"]) .theme-toggle-floating .moon-icon {
         padding: 1rem;
     }
 }
+.logo-upload-wrapper {
+    position: relative;
+}
+
+.logo-preview {
+    width: 100%;
+    min-height: 150px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+    margin-bottom: 10px;
+}
+
+.logo-preview:hover {
+    border-color: #007bff;
+    background-color: #f0f8ff;
+}
+
+.logo-preview svg {
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+.logo-preview p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.logo-preview img {
+    max-width: 100%;
+    max-height: 140px;
+    object-fit: contain;
+}
+
+#id_logo {
+    display: none;
+}
+
+.logo-upload-wrapper .form-control {
+    cursor: pointer;
+}
