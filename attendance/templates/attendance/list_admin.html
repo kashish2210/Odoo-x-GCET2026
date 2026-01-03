@@ -1,0 +1,50 @@
+{% extends 'attendance/attendance.html' %}
+
+{% load static %}
+{% block extra_css %} <link rel="stylesheet" href="{% static 'attendance/list_style.css' %}"> {% endblock %}
+
+
+{% block list %} 
+<div class="attendance-container">
+    <div class="table-header">
+        <h2>Attendance</h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Searchbar">
+        </div>
+    </div>
+
+    <div class="date-navigation">
+        <button class="nav-btn">&lt;-</button>
+        <button class="nav-btn">-&gt;</button>
+        <button class="date-dropdown">Date v</button>
+        <div class="day-display">Day</div>
+    </div>
+
+    <table class="attendance-table">
+        <thead>
+            <tr>
+                <th>Emp</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Work Hours</th>
+                <th>Extra hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ record.employee.email }}</td>
+                <td>{{ record.check_in|time:"H:i"|default:"--" }}</td>
+                <td>{{ record.check_out|time:"H:i"|default:"--" }}</td>
+                <td>{{ record.work_hours|default:"00:00" }}</td>
+                <td>{{ record.extra_hours|default:"00:00" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align: center;">No records found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

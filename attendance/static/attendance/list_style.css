@@ -1,0 +1,62 @@
+/* Container & Header */
+.attendance-container {
+    padding: 20px;
+    color: #f0f0f0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.table-header h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* Table Styling */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #444; /* Outer border */
+    background-color: #1a1a1a; /* Dark background */
+}
+
+.attendance-table thead {
+    border-bottom: 2px solid #555;
+}
+
+.attendance-table th {
+    text-align: left;
+    padding: 15px;
+    font-weight: 500;
+    color: #999;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    border-right: 1px solid #333; /* Vertical dividers */
+}
+
+.attendance-table td {
+    padding: 15px;
+    border-bottom: 1px solid #333;
+    border-right: 1px solid #333;
+    font-family: 'Courier New', Courier, monospace; /* Monospace for numbers */
+    font-size: 15px;
+}
+
+/* Remove the last right border for a cleaner look */
+.attendance-table th:last-child, 
+.attendance-table td:last-child {
+    border-right: none;
+}
+
+/* Hover effect for rows */
+.attendance-table tbody tr:hover {
+    background-color: #252525;
+}
+
+/* Empty state styling */
+.no-records {
+    padding: 40px !important;
+    color: #666;
+    font-style: italic;
+}

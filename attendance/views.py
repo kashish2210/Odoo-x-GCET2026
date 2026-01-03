@@ -6,7 +6,7 @@ from .models import Attendance
 
 # Create your views here.
 def attendance(request):
-    return render(request, 'attendance/attendance.html')
+    return redirect('attendance:list')
 
 
 @login_required
@@ -34,4 +34,29 @@ def check_in_out_view(request):
             user.done_for_day = True
             user.save()
 
-    return redirect('attendance:attendance')
+
+    return redirect('attendance:attendace_list_view')
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import Attendance
+
+@login_required
+def attendance_list_view(request):
+    user = request.user
+    
+    # 1. Filter by role
+    if user.role == 'ADMIN' or user.role == 'HR':
+        queryset = Attendance.objects.all()
+    else:
+        queryset = Attendance.objects.filter(employee=user)
+
+    records = queryset.order_by('-date')[:100]
+    
+    context = {
+        'records': records,
+    }
+    if user.role == 'ADMIN' or user.role == 'HR':
+        return render(request, 'attendance/list_admin.html', context)
+    else:
+        return render(request, 'attendance/list.html', context)
