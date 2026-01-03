@@ -28,11 +28,31 @@
             <form method="post" enctype="multipart/form-data" class="auth-form">
                 {% csrf_token %}
                 
-                <div class="form-group">
-                    <label for="{{ form.company_name.id_for_label }}" class="form-label">Company Name :-</label>
-                    {{ form.company_name }}
-                    {% if form.company_name.errors %}
-                        <span class="field-error">{{ form.company_name.errors.0 }}</span>
+                <div class="form-group logo-upload-group">
+                    <label class="form-label">Company Name :-</label>
+                    <div class="company-name-row">
+                        <div class="company-input-wrapper">
+                            {{ form.company_name }}
+                            {% if form.company_name.errors %}
+                                <span class="field-error">{{ form.company_name.errors.0 }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="upload-section" id="uploadSection">
+                            <label for="id_logo" class="upload-label">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                            </label>
+                            {{ form.logo }}
+                        </div>
+                    </div>
+                    <div id="logoPreviewContainer" style="display: none; margin-top: 0.5rem;">
+                        <img id="logoPreviewImage" class="logo-preview" alt="Logo Preview">
+                    </div>
+                    {% if form.logo.errors %}
+                        <span class="field-error">{{ form.logo.errors.0 }}</span>
                     {% endif %}
                 </div>
 
@@ -61,24 +81,6 @@
                     {{ form.phone }}
                     {% if form.phone.errors %}
                         <span class="field-error">{{ form.phone.errors.0 }}</span>
-                    {% endif %}
-                </div>
-
-                <div class="form-group">
-                    <label for="{{ form.logo.id_for_label }}" class="form-label">Company Logo :-</label>
-                    <div class="logo-upload-wrapper">
-                        <div class="logo-preview" id="logoPreview">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                                <polyline points="21 15 16 10 5 21"></polyline>
-                            </svg>
-                            <p>Upload Logo</p>
-                        </div>
-                        {{ form.logo }}
-                    </div>
-                    {% if form.logo.errors %}
-                        <span class="field-error">{{ form.logo.errors.0 }}</span>
                     {% endif %}
                 </div>
 
@@ -146,6 +148,29 @@
 
     <script src="{% static 'js/theme.js' %}"></script>
     <script src="{% static 'js/auth.js' %}"></script>
-    <script src="{% static 'js/signup.js' %}"></script>
+    <script>
+        // Logo preview functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoInput = document.getElementById('id_logo');
+            const logoPreviewContainer = document.getElementById('logoPreviewContainer');
+            const logoPreviewImage = document.getElementById('logoPreviewImage');
+            const uploadSection = document.getElementById('uploadSection');
+            
+            if (logoInput) {
+                logoInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            logoPreviewImage.src = e.target.result;
+                            logoPreviewContainer.style.display = 'block';
+                            uploadSection.style.backgroundColor = 'var(--bg-secondary)';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Addresses</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="app-logo-section">
+                    <span class="app-name">App/Web Logo</span>
+                </div>
+            </div>
+
+            <h2 class="auth-title">Email Addresses</h2>
+
+            {% if user.emailaddress_set.all %}
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                    The following email addresses are associated with your account:
+                </p>
+
+                <form method="post" class="auth-form">
+                    {% csrf_token %}
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+                        {% for emailaddress in user.emailaddress_set.all %}
+                            <div style="padding: 1rem; border: 2px solid var(--border-color); border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                        <input type="radio" name="email" value="{{ emailaddress.email }}"
+                                               {% if emailaddress.primary %}checked{% endif %}>
+                                        <span style="font-weight: 600;">{{ emailaddress.email }}</span>
+                                    </label>
+                                    {% if emailaddress.verified %}
+                                        <span style="color: #10b981; font-size: 0.85rem;">✓ Verified</span>
+                                    {% else %}
+                                        <span style="color: #ef4444; font-size: 0.85rem;">Not verified</span>
+                                    {% endif %}
+                                    {% if emailaddress.primary %}
+                                        <span style="color: var(--text-secondary); font-size: 0.85rem;"> • Primary</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button type="submit" name="action_primary" class="btn-submit" style="flex: 1;">
+                            Make Primary
+                        </button>
+                        <button type="submit" name="action_send" class="btn-submit" style="flex: 1; background-color: #10b981;">
+                            Re-send Verification
+                        </button>
+                        <button type="submit" name="action_remove" class="btn-submit" style="flex: 1; background-color: #ef4444;">
+                            Remove
+                        </button>
+                    </div>
+                </form>
+            {% else %}
+                <p style="color: var(--text-secondary);">You have no email addresses configured.</p>
+            {% endif %}
+
+            <hr style="margin: 2rem 0; border: 1px solid var(--border-color);">
+
+            <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--text-primary);">Add Email Address</h3>
+
+            <form method="post" action="{% url 'account_email' %}" class="auth-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label">Email Address :-</label>
+                    <input type="email" name="email" placeholder="Email Address" class="form-control" required>
+                </div>
+                <button type="submit" name="action_add" class="btn-submit">Add Email</button>
+            </form>
+
+            <div class="auth-footer">
+                <p><a href="{% url 'account_login' %}" class="auth-link">Back to Account</a></p>
+            </div>
+        </div>
+
+        <button class="theme-toggle-floating" id="themeToggle" aria-label="Toggle theme">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+    </div>
+
+    <script src="{% static 'js/theme.js' %}"></script>
+</body>
+</html>
