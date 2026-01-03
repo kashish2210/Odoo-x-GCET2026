@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Email</title>
+    <title>Verify Your Email</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
@@ -17,28 +17,37 @@
                 </div>
             </div>
 
-            <h2 class="auth-title">Confirm Email Address</h2>
+            <h2 class="auth-title">Verify Your Email Address</h2>
 
-            {% if confirmation %}
-                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
-                    Please confirm that <strong>{{ confirmation.email_address.email }}</strong> is an email address for user {{ confirmation.email_address.user }}.
+            <div style="padding: 1.5rem; background-color: rgba(59, 130, 246, 0.1); border: 2px solid #3b82f6; border-radius: 8px; margin-bottom: 1.5rem;">
+                <p style="color: #3b82f6; margin: 0;">
+                    📧 We have sent an email to <strong>{{ email }}</strong>
                 </p>
+            </div>
 
-                <form method="post" class="auth-form">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-submit">Confirm</button>
-                </form>
-            {% else %}
-                <div class="error-message">
-                    <p>This email confirmation link expired or is invalid. Please request a new confirmation email.</p>
-                </div>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">
+                Please check your email inbox and click on the verification link to confirm your email address.
+            </p>
 
-                <div class="auth-footer">
-                    <p><a href="{% url 'account_email' %}" class="auth-link">Go to Email Management</a></p>
-                </div>
-            {% endif %}
+            <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                If you don't see the email, please check your spam folder.
+            </p>
 
-            <div class="auth-footer" style="margin-top: 2rem;">
+            <div style="padding: 1rem; background-color: var(--logo-bg); border-radius: 8px; margin-bottom: 1.5rem;">
+                <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">
+                    <strong>Note:</strong> You won't be able to access all features until you verify your email address.
+                </p>
+            </div>
+
+            <form method="post" action="{% url 'account_email' %}" class="auth-form">
+                {% csrf_token %}
+                <input type="hidden" name="email" value="{{ email }}">
+                <button type="submit" name="action_send" class="btn-submit">
+                    Resend Verification Email
+                </button>
+            </form>
+
+            <div class="auth-footer">
                 <p><a href="{% url 'account_login' %}" class="auth-link">Back to Login</a></p>
             </div>
         </div>
