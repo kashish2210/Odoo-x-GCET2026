@@ -1,0 +1,423 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Request Time Off{% endblock %}
+
+{% block extra_css %}
+<style>
+    .timeoff-request-page {
+        padding: 24px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 32px;
+    }
+    
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    
+    .back-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--card-bg);
+        border: 2px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        color: var(--text-primary);
+    }
+    
+    .back-btn:hover {
+        background: var(--hover-bg);
+        transform: translateX(-2px);
+    }
+    
+    .page-header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+    }
+    
+    .form-container {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 0 2px 8px var(--shadow-color);
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+    
+    .form-group {
+        margin-bottom: 24px;
+    }
+    
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+    
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+    
+    .form-group label .required {
+        color: #ef4444;
+        margin-left: 2px;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 14px;
+        background: var(--input-bg);
+        color: var(--text-primary);
+        transition: all 0.2s ease;
+        font-family: inherit;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        background: var(--card-bg);
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    }
+    
+    .form-control:hover {
+        border-color: var(--text-secondary);
+    }
+    
+    textarea.form-control {
+        resize: vertical;
+        min-height: 100px;
+    }
+    
+    .file-upload-area {
+        border: 2px dashed var(--border-color);
+        border-radius: 8px;
+        padding: 24px;
+        text-align: center;
+        background: var(--hover-bg);
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+    
+    .file-upload-area:hover {
+        border-color: var(--primary-color);
+        background: var(--card-bg);
+    }
+    
+    .file-upload-icon {
+        width: 48px;
+        height: 48px;
+        margin: 0 auto 12px;
+        color: var(--text-secondary);
+    }
+    
+    .file-upload-text {
+        color: var(--text-primary);
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+    
+    .file-upload-hint {
+        color: var(--text-secondary);
+        font-size: 13px;
+    }
+    
+    .file-selected {
+        display: none;
+        padding: 12px 16px;
+        background: var(--hover-bg);
+        border-radius: 8px;
+        margin-top: 12px;
+    }
+    
+    .file-selected.show {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .balance-info {
+        background: linear-gradient(135deg, var(--primary-color) 0%, #6366f1 100%);
+        color: white;
+        padding: 20px 24px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .balance-item {
+        text-align: center;
+    }
+    
+    .balance-label {
+        font-size: 13px;
+        opacity: 0.9;
+        margin-bottom: 4px;
+    }
+    
+    .balance-value {
+        font-size: 24px;
+        font-weight: 700;
+    }
+    
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 2px solid var(--border-color);
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-primary {
+        background: var(--primary-color);
+        color: white;
+        box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+    }
+    
+    .btn-primary:hover {
+        background: #6366f1;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+    
+    .btn-secondary {
+        background: var(--hover-bg);
+        color: var(--text-primary);
+        border: 2px solid var(--border-color);
+    }
+    
+    .btn-secondary:hover {
+        background: var(--border-color);
+    }
+    
+    .help-text {
+        color: var(--text-secondary);
+        font-size: 13px;
+        margin-top: 6px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="timeoff-request-page">
+    <div class="page-header">
+        <div class="header-left">
+            <a href="{% url 'timeoff:timeoff_list' %}" class="back-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <h1>Time Off Request</h1>
+        </div>
+    </div>
+    <!-- Balance Info -->
+    <div class="balance-info">
+        <div class="balance-item">
+            <div class="balance-label">24 Days Available</div>
+            <div class="balance-value">26</div>
+        </div>
+        <div class="balance-item">
+            <div class="balance-label">07 Days Available</div>
+            <div class="balance-value">07</div>
+        </div>
+    </div>
+    
+    <div class="form-container">
+        <form method="post" enctype="multipart/form-data" id="timeoffForm">
+            {% csrf_token %}
+            
+            <div class="form-grid">
+                <!-- Employee (Read-only) -->
+                <div class="form-group">
+                    <label for="employee">Employee</label>
+                    <input type="text" class="form-control" value="{{ request.user.login_id }}" readonly>
+                </div>
+                
+                <!-- Time Off Type -->
+                <div class="form-group">
+                    <label for="time_off_type">Time Off Type <span class="required">*</span></label>
+                    <select id="time_off_type" name="time_off_type" class="form-control" required>
+                        <option value="">Select Type</option>
+                        {% for type in timeoff_types %}
+                            <option value="{{ type.id }}">{{ type.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Start Date -->
+                <div class="form-group">
+                    <label for="start_date">Start Date <span class="required">*</span></label>
+                    <input type="date" id="start_date" name="start_date" class="form-control" required>
+                </div>
+                
+                <!-- End Date -->
+                <div class="form-group">
+                    <label for="end_date">End Date <span class="required">*</span></label>
+                    <input type="date" id="end_date" name="end_date" class="form-control" required>
+                </div>
+                
+                <!-- Validity Period Start -->
+                <div class="form-group">
+                    <label for="validity_start">Validity Period (From) <span class="required">*</span></label>
+                    <input type="date" id="validity_start" name="validity_period_start" class="form-control" required>
+                    <p class="help-text">e.g., May 13</p>
+                </div>
+                
+                <!-- Validity Period End -->
+                <div class="form-group">
+                    <label for="validity_end">Validity Period (To) <span class="required">*</span></label>
+                    <input type="date" id="validity_end" name="validity_period_end" class="form-control" required>
+                    <p class="help-text">e.g., May 14</p>
+                </div>
+                
+                <!-- Allocation -->
+                <div class="form-group">
+                    <label for="allocation">Allocation (Days) <span class="required">*</span></label>
+                    <input type="number" id="allocation" name="allocation" class="form-control" step="0.5" min="0.5" placeholder="01.00" required>
+                    <p class="help-text">Number of days requested</p>
+                </div>
+                
+                <!-- Reason -->
+                <div class="form-group full-width">
+                    <label for="reason">Reason</label>
+                    <textarea id="reason" name="reason" class="form-control" placeholder="Enter reason for time off..."></textarea>
+                </div>
+                
+                <!-- Attachment -->
+                <div class="form-group full-width">
+                    <label for="attachment">Attachment</label>
+                    <div class="file-upload-area" onclick="document.getElementById('attachment').click()">
+                        <svg class="file-upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <div class="file-upload-text">Click to upload or drag and drop</div>
+                        <div class="file-upload-hint">For sick leave certificates (PDF, PNG, JPG - Max 5MB)</div>
+                    </div>
+                    <input type="file" id="attachment" name="attachment" accept=".pdf,.png,.jpg,.jpeg" style="display: none;">
+                    <div class="file-selected" id="fileSelected">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                            <polyline points="13 2 13 9 20 9"></polyline>
+                        </svg>
+                        <span id="fileName"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <a href="{% url 'timeoff:timeoff_list' %}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Submit Request
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// File upload handling
+document.getElementById('attachment').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        // Check file size (5MB max)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('File size must be less than 5MB');
+            this.value = '';
+            return;
+        }
+        
+        document.getElementById('fileName').textContent = file.name;
+        document.getElementById('fileSelected').classList.add('show');
+    }
+});
+
+// Auto-calculate allocation based on date range
+document.getElementById('start_date').addEventListener('change', calculateAllocation);
+document.getElementById('end_date').addEventListener('change', calculateAllocation);
+
+function calculateAllocation() {
+    const startDate = document.getElementById('start_date').value;
+    const endDate = document.getElementById('end_date').value;
+    
+    if (startDate && endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        
+        if (end >= start) {
+            const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+            document.getElementById('allocation').value = days.toFixed(2);
+        }
+    }
+}
+
+// Form validation
+document.getElementById('timeoffForm').addEventListener('submit', function(e) {
+    const startDate = new Date(document.getElementById('start_date').value);
+    const endDate = new Date(document.getElementById('end_date').value);
+    const validityStart = new Date(document.getElementById('validity_start').value);
+    const validityEnd = new Date(document.getElementById('validity_end').value);
+    
+    if (endDate < startDate) {
+        e.preventDefault();
+        alert('End date must be after start date');
+        return false;
+    }
+    
+    if (validityEnd < validityStart) {
+        e.preventDefault();
+        alert('Validity period end must be after start');
+        return false;
+    }
+});
+</script>
+{% endblock %}

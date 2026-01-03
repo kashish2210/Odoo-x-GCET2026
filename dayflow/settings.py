@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'attendance',
 
     'allauth',
-    'allauth.account'
+    'allauth.account',
+    'timeoff'
 
     
 ]

@@ -27,7 +27,7 @@
         <nav class="dashboard-nav">
             <a href="{% url 'employee:employees' %}" class="nav-item employees">Employees</a>
             <a href="{% url 'attendance:attendance' %}" class="nav-item attendance">Attendance</a>
-            <a href="#" class="nav-item time_off">Time Off</a>
+            <a href="{% url 'timeoff:timeoff_list' %}" class="nav-item time_off">Time Off</a>
         </nav>
         
         <!-- Header Actions -->
@@ -127,5 +127,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Highlight active navigation
+    const currentPath = window.location.pathname;
+    const navItems = document.querySelectorAll('.dashboard-nav .nav-item');
+    
+    navItems.forEach(item => {
+        const href = item.getAttribute('href');
+        if (currentPath.startsWith(href) && href !== '#') {
+            item.classList.add('active');
+        }
+    });
 });
 </script>
