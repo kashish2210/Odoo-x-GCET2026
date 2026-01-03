@@ -17,7 +17,7 @@
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #444; /* Outer border */
-    background-color: #1a1a1a; /* Dark background */
+    background-color: #000; /* Dark background */
 }
 
 .attendance-table thead {
