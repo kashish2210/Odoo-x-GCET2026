@@ -2,3 +2,4 @@ django-oauth-toolkit
 djangorestframework
 django
 django-allauth
+Pillow
